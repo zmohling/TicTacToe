@@ -7,7 +7,7 @@ import javax.swing.*;
 /**
  * The game of Tic-Tac-Toe.
  * @author Zachary Mohling
- * @version 1.1
+ * @version 1.2
  */
 @SuppressWarnings("serial")
 public class TicTacToe extends JFrame implements ActionListener {
@@ -46,6 +46,12 @@ public class TicTacToe extends JFrame implements ActionListener {
 		
 		this.setTitle("Tic-Tac-Toe");
 		
+		ImageIcon icon = new ImageIcon(
+				this.getClass().getClassLoader().getResource("icon.png")			// Set window's icon
+				);
+		this.setIconImage(icon.getImage());
+		
+		
 		this.setSize(600, 625);														// 600 by 600 game board + 25 for southern JLabel
 		this.setResizable(false);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -55,7 +61,7 @@ public class TicTacToe extends JFrame implements ActionListener {
 		for (int i = 0; i < (ROWS * COLS); i++)										// Populate array with spaces and add them to the GridLayout
 		{
 			spaces[i] = new Space();
-			
+			spaces[i].updateStyling(i);												// Change border properties of the space to construct the classic 3x3 grid
 			spaces[i].addActionListener(this);										// The Space class extends JButton. When pressed, our action listener will call actionPerformed()  
 			
 			gameBoard.add(spaces[i]);
@@ -64,6 +70,7 @@ public class TicTacToe extends JFrame implements ActionListener {
 		this.add(gameBoard);														// Add gameBoard to the JFrame
 		
 		label.setText("It is player X's turn to play.");
+		label.setHorizontalAlignment(SwingConstants.CENTER);
 		this.add(label, BorderLayout.SOUTH);										// Add label to the JFrame
 				
 		this.setVisible(true);														// Set Frame Visible
@@ -87,19 +94,13 @@ public class TicTacToe extends JFrame implements ActionListener {
 		
 		if (checkWin(player))														// Check to see if player made a winning mark
 		{
-			label.setText("Player " + player.toString() + " wins!");
-			
-			for (Space s : spaces)
-				s.setEnabled(false);
-			
+			endGame("Player " + player.toString() + " wins!");
+
 			return;
 		}
 		else if (markCounter >= 9)													// If 9 or more moves have occurred without a win, the game will result in a draw
 		{
-			label.setText("**Draw**");
-			
-			for (Space s : spaces)
-				s.setEnabled(false);
+			endGame("Draw!");
 			
 			return;
 		}
@@ -139,6 +140,20 @@ public class TicTacToe extends JFrame implements ActionListener {
 		
 		
 		return false;
+	}
+	
+	/**
+	 * Necessary steps to end the game
+	 * @param string Text to display the outcome of the game
+	 */
+	private void endGame(String string)
+	{
+		for (Space s : spaces)														// Disable all spaces
+			s.setEnabled(false);
+		
+		String restartGameString = "Restart game to play again.";
+		
+		label.setText(string + " " + restartGameString);							// Display end-game text
 	}
 	
 	@Override
