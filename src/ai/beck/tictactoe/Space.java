@@ -7,20 +7,20 @@ import ai.beck.tictactoe.TicTacToe.Marks;
 /**
  * The standardized space of Tic-Tac-Toe. Space stores the appropriate null, X, or O data value and acts as a button for sending action events.
  * @author Zachary Mohling
- * @version 1.2
+ * @version 1.3
  */
 @SuppressWarnings("serial")
 public class Space extends JButton {
 	
 	private ImageIcon X = new ImageIcon(this.getClass().getClassLoader().getResource("X.png"));
 	private ImageIcon O = new ImageIcon(this.getClass().getClassLoader().getResource("O.png"));
-	private Marks mark;																				// Mark in this space
+	private Marks mark;																				// Mark in this Space
 	
 	public Space()
 	{
 		Space space = this;
 
-		space.setBackground(Color.WHITE);															// Change background color of space to white
+		space.setBackground(Color.WHITE);															// Change background color of Space to white
 		space.mark = null;																			// Initialize mark to null
 	}
 	
@@ -34,7 +34,7 @@ public class Space extends JButton {
 			this.setBorder(BorderFactory.createMatteBorder(0, 5, 0, 5, Color.BLACK));
 		else if (index == 3 || index == 5)
 			this.setBorder(BorderFactory.createMatteBorder(5, 0, 5, 0, Color.BLACK));
-		else if (index == 4)																		// Center space
+		else if (index == 4)																		// Center Space
 			this.setBorder(BorderFactory.createMatteBorder(5, 5, 5, 5, Color.BLACK));
 		else
 			this.setBorder(BorderFactory.createMatteBorder(5, 5, 5, 5, Color.WHITE));

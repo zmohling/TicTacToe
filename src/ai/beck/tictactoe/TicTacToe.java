@@ -7,19 +7,18 @@ import javax.swing.*;
 /**
  * The game of Tic-Tac-Toe.
  * @author Zachary Mohling
- * @version 1.2
+ * @version 1.3
  */
-@SuppressWarnings("serial")
 public class TicTacToe extends JFrame implements ActionListener {
+	private static final long serialVersionUID = 7313019912169105332L;
 	
 	private static int ROWS = 3; private static int COLS = 3;
-	
-	private int markCounter = 0;
+	private Space[] spaces = new Space[ROWS * COLS];								// Array of nine spaces, blocks of a grid
+	private int markCounter = 0;													// Counter for marks on the game board
 	
 	private JPanel gameBoard = new JPanel();
 	private JLabel label = new JLabel();
 	
-	private Space[] spaces = new Space[ROWS * COLS];								// Array of nine spaces, blocks of a grid
 	
 	/* A Mark can be a player or a physical mark. For example, "Player X" and "the player which marked an 'X' on the game board" refer to the same player */
 	public static enum Marks {
@@ -32,7 +31,7 @@ public class TicTacToe extends JFrame implements ActionListener {
 		}
 	}
 	
-	public Marks player = Marks.X;													// This Marks variable tracks the turn of the players
+	public Marks player = Marks.X;													// This <code>Marks<code> variable tracks the turn of the players
 
 	public static void main(String[] args) 
 	{
@@ -58,10 +57,10 @@ public class TicTacToe extends JFrame implements ActionListener {
 		
 		gameBoard.setLayout(new GridLayout(ROWS, COLS));
 		
-		for (int i = 0; i < (ROWS * COLS); i++)										// Populate array with spaces and add them to the GridLayout
+		for (int i = 0; i < (ROWS * COLS); i++)										// Populate array with Spaces and add them to the GridLayout
 		{
 			spaces[i] = new Space();
-			spaces[i].updateStyling(i);												// Change border properties of the space to construct the classic 3x3 grid
+			spaces[i].updateStyling(i);												// Change border properties of the Space to construct the classic 3x3 grid
 			spaces[i].addActionListener(this);										// The Space class extends JButton. When pressed, our action listener will call actionPerformed()  
 			
 			gameBoard.add(spaces[i]);
@@ -85,11 +84,11 @@ public class TicTacToe extends JFrame implements ActionListener {
 		
 		markCounter++;																// Increment mark counter
 		
-		Space space = (Space) e.getSource();										// Get the space that was marked
+		Space space = (Space) e.getSource();										// Get the Space that was marked
 		
-		space.setEnabled(false);													// Disable space so that it is considered an ineligible space
-		space.changeIcon(player);													// Change the space's icon to the appropriate mark
-		space.markSpace(player);													// Change the <code>mark<code> data field of the space
+		space.setEnabled(false);													// Disable space so that it is considered an ineligible Space
+		space.changeIcon(player);													// Change the Space's icon to the appropriate mark
+		space.markSpace(player);													// Change the <code>mark<code> data field of the Space
 
 		
 		if (checkWin(player))														// Check to see if player made a winning mark
@@ -148,7 +147,7 @@ public class TicTacToe extends JFrame implements ActionListener {
 	 */
 	private void endGame(String string)
 	{
-		for (Space s : spaces)														// Disable all spaces
+		for (Space s : spaces)														// Disable all Spaces
 			s.setEnabled(false);
 		
 		String restartGameString = "Restart game to play again.";
