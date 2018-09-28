@@ -14,6 +14,8 @@ public class TicTacToe extends JFrame implements ActionListener {
 	
 	private static int ROWS = 3; private static int COLS = 3;
 	
+	private int markCounter = 0;
+	
 	private JPanel gameBoard = new JPanel();
 	private JLabel label = new JLabel();
 	
@@ -74,6 +76,8 @@ public class TicTacToe extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
+		markCounter++;																// Increment mark counter
+		
 		Space space = (Space) e.getSource();										// Get the space that was marked
 		
 		space.setEnabled(false);													// Disable space so that it is considered an ineligible space
@@ -81,9 +85,18 @@ public class TicTacToe extends JFrame implements ActionListener {
 		space.markSpace(player);													// Change the <code>mark<code> data field of the space
 
 		
-		if (checkWin(player))
+		if (checkWin(player))														// Check to see if player made a winning mark
 		{
 			label.setText("Player " + player.toString() + " wins!");
+			
+			for (Space s : spaces)
+				s.setEnabled(false);
+			
+			return;
+		}
+		else if (markCounter >= 9)													// If 9 or more moves have occurred without a win, the game will result in a draw
+		{
+			label.setText("**Draw**");
 			
 			for (Space s : spaces)
 				s.setEnabled(false);
