@@ -78,24 +78,24 @@ public class GameBoard extends JFrame {
 				/* If grid has been instantiated prior to GameBoard's resize, reflect those changes onto the components within grid */
 				if (isInstantiated)
 				{
-					Space[] Spaces = new Space[9];
+					Space[] spaces = new Space[9];
 					
-					for (int i = 0; i < Spaces.length; i++)
+					for (int i = 0; i < spaces.length; i++)
 					{
-						Spaces[i] = (Space) grid.getComponent(i);		// Get array of Spaces from components within grid
-						Spaces[i].scaleIconToGameBoard((GameBoard) e.getComponent());		// Scale the marks
+						spaces[i] = (Space) grid.getComponent(i);		// Get array of Spaces from components within grid
+						spaces[i].scaleIconToGameBoard((GameBoard) e.getComponent());		// Scale the marks
 						
 						ImageIcon imageIcon;
 						
-						if(Spaces[i].getMark() == Marks.X)
-							imageIcon = Spaces[i].X;
-						else if(Spaces[i].getMark() == Marks.O)
-							imageIcon = Spaces[i].O;
+						if(spaces[i].getMark() == Marks.X)
+							imageIcon = spaces[i].X;
+						else if(spaces[i].getMark() == Marks.O)
+							imageIcon = spaces[i].O;
 						else
 							continue;
 						
-						Spaces[i].setIcon(imageIcon);		// Set the scaled marks in the Space
-						Spaces[i].setDisabledIcon(imageIcon);
+						spaces[i].setIcon(imageIcon);		// Set the scaled marks in the Space
+						spaces[i].setDisabledIcon(imageIcon);
 
 					}
 				}
