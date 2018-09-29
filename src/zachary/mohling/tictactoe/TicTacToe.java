@@ -5,15 +5,29 @@ import java.awt.event.*;
 /**
  * The game of Tic-Tac-Toe.
  * @author Zachary Mohling
- * @version 1.4
+ * @version 1.5
  */
 public class TicTacToe implements ActionListener {	
 	
-	public GameBoard board;															// The Game Board
-	public Marks player = Marks.X;													// This <code>Marks<code> variable tracks the turn of the players
+	/**
+	 * Tic-Tac-Toe's Game Board.
+	 */
+	public GameBoard gameBoard;
 	
-	private Space[] spaces = new Space[Constants.ROWS * Constants.COLS];			// Array of nine spaces, blocks of a grid
-	private int markCounter = 0;													// Counter for marks on the game board
+	/**
+	 * This <code>Marks</code> variable tracks the turn of the players.
+	 */
+	public Marks player = Marks.X;
+	
+	/**
+	 * Array of nine spaces, blocks of a grid.
+	 */
+	private static Space[] spaces = new Space[Constants.ROWS * Constants.COLS];
+	
+	/**
+	 * Counter for marks on the game board.
+	 */
+	private int markCounter = 0;
 
 	public static void main(String[] args) 
 	{
@@ -25,8 +39,8 @@ public class TicTacToe implements ActionListener {
 	 */
 	public TicTacToe()
 	{
-		board = new GameBoard();
-		instantiateGameBoard(board);
+		gameBoard = new GameBoard();
+		instantiateGameBoard(gameBoard);
 	}
 
 	/**
@@ -34,17 +48,20 @@ public class TicTacToe implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		/* Get the source of the event. (i.e. Get the space which was marked) */
+		Space space = (Space) e.getSource();
 		
-		Space space = (Space) e.getSource();										// Get the Space that was marked
-		space.setMark(player);														// Mark the space
+		/* Mark the Space */
+		space.setMark(player);
 		
-		if (checkWin(player))														// Check to see if player made a winning mark
+		/* Check the grid for a winner or end the game in a draw if nine or more moves had been made */
+		if (checkWin(player))
 		{
 			endGame("Player " + player.toString() + " wins!");
 
 			return;
 		}
-		else if (markCounter >= 9)													// If 9 or more moves have occurred without a win, the game will result in a draw
+		else if (markCounter >= 9)
 		{
 			endGame("Draw!");
 			
@@ -55,22 +72,25 @@ public class TicTacToe implements ActionListener {
 	}
 	
 	/**
-	 * Instantiate the game board by populating the board with empty Spaces.
+	 * Instantiate the game board by populating the grid with empty Spaces.
 	 * @param board The game board
 	 */
 	private void instantiateGameBoard(GameBoard board)
 	{
-		for (int i = 0; i < (Constants.ROWS * Constants.COLS); i++)					// Populate array with Spaces and add them to the GridLayout
+		/* Populate spaces[] array with Spaces and add them to the grid */
+		for (int i = 0; i < (Constants.ROWS * Constants.COLS); i++)
 		{
 			spaces[i] = new Space();
-			spaces[i].updateStyling(i);												// Change border properties of the Space to construct the classic 3x3 grid
+			spaces[i].updateStyling(i);		// Change border properties of the Space to construct the classic 3x3 grid
+			spaces[i].scaleIconToGameBoard(board);
 			
-			spaces[i].addActionListener(this);										// The Space class extends JButton. When pressed, our action listener will call actionPerformed()  
+			spaces[i].addActionListener(this);		// The Space class extends JButton. When pressed, our action listener will call actionPerformed()  
 			
-			board.gameBoard.add(spaces[i]);
+			board.grid.add(spaces[i]);
 		}
 		
-		board.update();																// Update the board the represent the changes
+		board.isInstantiated = true;		// Grid is now instantiated
+		board.update();		// Update the GameBoard the represent the changes
 	}
 	
 	/**
@@ -79,7 +99,7 @@ public class TicTacToe implements ActionListener {
 	private void nextTurn()
 	{
 		player = player.next();
-		board.setLabel("It is player " + player.toString() + "'s turn to play.");
+		gameBoard.setLabel("It is player " + player.toString() + "'s turn to play.");
 	}
 	
 	/**
@@ -120,12 +140,14 @@ public class TicTacToe implements ActionListener {
 	 */
 	private void endGame(String string)
 	{
-		for (Space s : spaces)														// Disable all Spaces
+		/* Disable all Spaces */
+		for (Space s : spaces)
 			s.setEnabled(false);
 		
 		String restartGameString = "Restart game to play again.";
 		
-		board.setLabel(string + " " + restartGameString);							// Display end-game text
+		/* Display end-game text */
+		gameBoard.setLabel(string + " " + restartGameString);
 	}
 	
 	@Override

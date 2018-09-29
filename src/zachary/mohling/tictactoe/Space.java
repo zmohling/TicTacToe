@@ -4,16 +4,27 @@ import java.awt.*;
 import javax.swing.*;
 
 /**
- * The standardized space of Tic-Tac-Toe. Space stores the appropriate null, X, or O data value and acts as a button for sending action events.
+ * The standardized Space of Tic-Tac-Toe. Space stores the appropriate null, X, or O data value and acts as a button for sending action events.
  * @author Zachary Mohling
- * @version 1.4
+ * @version 1.5
  */
-@SuppressWarnings("serial")
 public class Space extends JButton {
+	private static final long serialVersionUID = -6034787174030724679L;
 	
-	private ImageIcon X = new ImageIcon(this.getClass().getClassLoader().getResource("X.png"));
-	private ImageIcon O = new ImageIcon(this.getClass().getClassLoader().getResource("O.png"));
-	private Marks mark;																				// Mark in this Space
+	/**
+	 * Reference to the image X.
+	 */
+	public ImageIcon X = new ImageIcon(this.getClass().getClassLoader().getResource("X.png"));
+	
+	/**
+	 * Reference to the image O.
+	 */
+	public ImageIcon O = new ImageIcon(this.getClass().getClassLoader().getResource("O.png"));
+	
+	/**
+	 * Mark of this Space.
+	 */
+	private Marks mark;
 	
 	/**
 	 * Creates a Space that will populate the game board's grid.
@@ -22,8 +33,10 @@ public class Space extends JButton {
 	{
 		Space space = this;
 
-		space.setBackground(Color.WHITE);															// Change background color of Space to white
-		space.mark = null;																			// Initialize mark to null
+		/* Set Space's initial values */
+		space.setBackground(Color.WHITE);
+		space.mark = null;
+		space.setIcon(null);
 	}
 	
 	/**
@@ -36,10 +49,10 @@ public class Space extends JButton {
 			this.setBorder(BorderFactory.createMatteBorder(0, 5, 0, 5, Color.BLACK));
 		else if (index == 3 || index == 5)
 			this.setBorder(BorderFactory.createMatteBorder(5, 0, 5, 0, Color.BLACK));
-		else if (index == 4)																		// Center Space
+		else if (index == 4)		// Center Space
 			this.setBorder(BorderFactory.createMatteBorder(5, 5, 5, 5, Color.BLACK));
 		else
-			this.setBorder(BorderFactory.createMatteBorder(5, 5, 5, 5, Color.WHITE));
+			this.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.WHITE));
 	}
 
 	/**
@@ -80,6 +93,25 @@ public class Space extends JButton {
 			this.setIcon(O);
 			this.setDisabledIcon(O);
 		}
+	}
+	
+	/**
+	 * Resize icons to fit the grid of the GameBoard.
+	 * @param board GameBoard to format icon dimensions
+	 */
+	public void scaleIconToGameBoard(GameBoard board)
+	{
+		/* Reference the images of the marks */
+		Image imgX = X.getImage();
+		Image imgO = O.getImage();
+		
+		/* Scale the images to fit within the grid. Required since display resolutions will vary */
+		ImageIcon imageIconX = new ImageIcon(imgX.getScaledInstance((int) (board.getHeight() / 4.0 ), -1, java.awt.Image.SCALE_SMOOTH));
+		ImageIcon imageIconO = new ImageIcon(imgO.getScaledInstance((int) (board.getHeight() / 4.0 ), -1, java.awt.Image.SCALE_SMOOTH));
+
+		/* Update the images of the marks to our scaled images */
+		X = imageIconX;
+		O = imageIconO;
 	}
 	
 	@Override
