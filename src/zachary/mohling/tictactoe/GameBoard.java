@@ -42,7 +42,7 @@ public class GameBoard extends JFrame {
 		
 		/* Manage initial GameBoard dimensions */
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		this.setSize((int)(screenSize.height * 0.95), (int)(screenSize.height * 0.95));		// Set GameBoard size to a square with lengths as long as screen height * 0.95
+		this.setSize((int)(screenSize.height * 0.5), (int)(screenSize.height * 0.5));		// Set GameBoard size to a square with lengths as long as screen height * 0.95
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		
@@ -52,6 +52,7 @@ public class GameBoard extends JFrame {
 		
 		
 		/* Set Dialog Label's initial values */
+		dialogLabel.setPreferredSize(new Dimension(this.getWidth(), (int)(this.getHeight() * 0.05)));
 		dialogLabel.setText("It is player X's turn to play.");
 		dialogLabel.setHorizontalAlignment(SwingConstants.CENTER);		// Center text in middle of dialogLabel
 		this.add(dialogLabel, BorderLayout.SOUTH);

@@ -51,6 +51,9 @@ public class TicTacToe implements ActionListener {
 		/* Get the source of the event. (i.e. Get the space which was marked) */
 		Space space = (Space) e.getSource();
 		
+		/* Increment mark counter*/
+		markCounter++;
+		
 		/* Mark the Space */
 		space.setMark(player);
 		
@@ -110,7 +113,6 @@ public class TicTacToe implements ActionListener {
 	private boolean checkWin(Marks player)
 	{
 		/* Check horizontal win */
-		
 		for (int i = 0; i < spaces.length; i += 3)
 			if (spaces[i].getMark() == player && spaces[i + 1].getMark() == player && spaces[i + 2].getMark() == player)
 				return true;
