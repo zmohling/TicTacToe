@@ -43,8 +43,10 @@ public class GameBoard extends JFrame {
 		/* Manage initial GameBoard dimensions */
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setSize((int)(screenSize.height * 0.5), (int)(screenSize.height * 0.5));		// Set GameBoard size to a square with lengths as long as screen height * 0.95
+		Dimension maximumSize = new Dimension(screenSize.height, screenSize.height);
+		this.setMaximumSize(maximumSize);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		
+
 		
 		/* Set GameBoard's layout manager to GridLayout() */
 		grid.setLayout(new GridLayout(Constants.ROWS, Constants.COLS));
@@ -68,6 +70,10 @@ public class GameBoard extends JFrame {
 			{
 				Rectangle window = e.getComponent().getBounds();
 				e.getComponent().setBounds(window.x, window.y, window.width, window.width);		// Maintain aspect ratio of 1x1
+				
+				/* Reinstantiate bounds if size is greater than maximum */
+				if (e.getComponent().getSize().getWidth() > maximumSize.getWidth())
+					e.getComponent().setSize(maximumSize);
 				
 				/* If grid has been instantiated prior to GameBoard's resize, reflect those changes onto the components within grid */
 				if (isInstantiated)
